@@ -32,20 +32,20 @@ label{display:block;margin:4px 0;text-align:left}
 <input id="tpass" type="password" placeholder="Password: DUAL@2024">
 <button class="blue" onclick="teacherLogin()">LOGIN</button>
 <button class="grey" onclick="back()">BACK</button>
-<p id="tmsg"></p>
+<p id="tmsg" style="color:red"></p>
 </div>
 <div id="teacherDash" class="hidden">
-<h2>Teacher Dashboard - Welcome DUAL SUCCESS</h2>
-<h3>1. Add Student (Password na kowa DUAL@2024)</h3>
+<h2>Teacher Dashboard</h2>
+<h3>1. Add Student</h3>
 <input id="newName" placeholder="Student Name e.g. Musa Lawal">
 <input id="newID" placeholder="Exam No e.g. 9706">
-<label><input type="checkbox" id="allow" checked style="width:auto"> Bada dama ya yi Exam (Allow)</label>
+<label><input type="checkbox" id="allow" checked style="width:auto"> Bada dama ya yi Exam</label>
 <button class="green" onclick="addStudent()">ADD STUDENT</button>
 <p id="addMsg"></p>
 <div id="studentList"></div>
 <hr>
 <h3>2. Set Exam Time (Minutes)</h3>
-<input id="examTime" type="number" value="20" placeholder="Time in Minutes">
+<input id="examTime" type="number" value="20">
 <button class="blue" onclick="saveTime()">SAVE TIME</button>
 <hr>
 <h3>3. Add Question</h3>
@@ -55,24 +55,94 @@ label{display:block;margin:4px 0;text-align:left}
 <textarea id="qText" placeholder="Tambaya..."></textarea>
 <input id="optA" placeholder="Option A"><input id="optB" placeholder="Option B"><input id="optC" placeholder="Option C"><input id="optD" placeholder="Option D">
 <select id="correct"><option value="A">Correct: A</option><option value="B">Correct: B</option><option value="C">Correct: C</option><option value="D">Correct: D</option></select>
-<input id="qMark" type="number" value="1" placeholder="Mark e.g. 2">
+<input id="qMark" type="number" value="1">
 <button class="green" onclick="addQuestion()">ADD QUESTION</button>
 <p id="qMsg"></p>
 <div id="qList"></div>
 <hr>
-<h3>4. Results - Teacher Kadai Yake Gani</h3>
+<h3>4. Results</h3>
 <div id="resultList"></div>
 <button class="red" onclick="clearResults()">CLEAR ALL RESULTS</button>
 <button class="grey" onclick="back()">LOGOUT</button>
 </div>
 <div id="student" class="hidden">
 <h2>Student Login</h2>
-<input id="sname" placeholder="Full Name: Musa Lawal">
-<input id="sid" placeholder="Exam No: 9706">
+<input id="sname" placeholder="Full Name">
+<input id="sid" placeholder="Exam No">
 <input id="spass" type="password" placeholder="Password: DUAL@2024">
 <button class="green" onclick="studentLogin()">START EXAM</button>
 <button class="grey" onclick="back()">BACK</button>
-<p id="smsg"></p>
+<p id="smsg" style="color:red"></p>
 </div>
 <div id="exam" class="hidden">
-<h2 id="welcomeName
+<h2 id="welcomeName"></h2>
+<p id="timer" style="color:red;font-weight:bold"></p>
+<p><b>Choose Subject:</b></p>
+<div id="subBtns"></div>
+<div id="examArea"></div>
+<button class="red" onclick="back()">LOGOUT</button>
+</div>
+</div>
+<script>
+let curStudent=null, curSub='', curQs=[], timeLeft=0, timerInt=null;
+function show(id){
+document.getElementById('home').style.display='none';
+document.getElementById('teacher').style.display='none';
+document.getElementById('student').style.display='none';
+document.getElementById('teacherDash').style.display='none';
+document.getElementById('exam').style.display='none';
+document.getElementById(id).style.display='block';
+}
+function back(){ clearInterval(timerInt); show('home'); }
+function getStudents(){ try{return JSON.parse(localStorage.getItem('ds_students')||'[]')}catch(e){return []} }
+function getQs(){ try{return JSON.parse(localStorage.getItem('ds_qs')||'[]')}catch(e){return []} }
+function getResults(){ try{return JSON.parse(localStorage.getItem('ds_results')||'[]')}catch(e){return []} }
+function teacherLogin(){
+var u=document.getElementById('tuser').value.trim().toUpperCase();
+var p=document.getElementById('tpass').value.trim();
+if(u=='DUAL SUCCESS' && p=='DUAL@2024'){
+document.getElementById('tmsg').innerHTML='';
+show('teacherDash'); refreshTeacher();
+}else{ document.getElementById('tmsg').innerHTML='Wrong! Username: DUAL SUCCESS / Password: DUAL@2024'; alert('Wrong! Ka rubuta DUAL SUCCESS da DUAL@2024'); }
+}
+function addStudent(){
+let n=document.getElementById('newName').value.trim(), id=document.getElementById('newID').value.trim();
+if(!n||!id){alert('Cika Name da Exam No');return;}
+let s=getStudents(); 
+if(s.find(x=>x.id==id)){alert('Wannan Exam No ya riga ya wanzu');return;}
+s.push({name:n,id:id,allow:document.getElementById('allow').checked,done:false});
+localStorage.setItem('ds_students',JSON.stringify(s));
+document.getElementById('addMsg').innerText='An kara '+n+' - '+id;
+refreshTeacher();
+}
+function saveTime(){ localStorage.setItem('ds_time', document.getElementById('examTime').value); alert('Time Saved'); }
+function addQuestion(){
+let q={sub:document.getElementById('qSub').value, text:document.getElementById('qText').value, a:document.getElementById('optA').value, b:document.getElementById('optB').value, c:document.getElementById('optC').value, d:document.getElementById('optD').value, correct:document.getElementById('correct').value, mark:parseFloat(document.getElementById('qMark').value)||1};
+if(!q.text||!q.a||!q.b){alert('Cika Tambaya da Options');return;}
+let qs=getQs(); qs.push(q); localStorage.setItem('ds_qs',JSON.stringify(qs));
+document.getElementById('qMsg').innerText='An kara tambaya! Total: '+qs.length;
+refreshTeacher();
+}
+function refreshTeacher(){
+let s=getStudents(), qs=getQs(), rs=getResults();
+let h=''; s.forEach((st,i)=>{ h+='<div style="text-align:left;border:1px solid #ccc;padding:8px;margin:5px;border-radius:8px">'+st.name+' - '+st.id+'<br><button style="width:auto;padding:6px;background:#0a6b2e" onclick="toggleAllow('+i+')">Allow / Block</button> <button style="width:auto;padding:6px;background:orange" onclick="resetStudent('+i+')">Bude Sake Shiga</button> <button style="width:auto;padding:6px;background:red" onclick="delStudent('+i+')">Delete</button></div>'; });
+document.getElementById('studentList').innerHTML=h||'Babu student tukuna';
+document.getElementById('qList').innerHTML='Total Questions: '+qs.length;
+let rh=''; rs.forEach(r=>{ rh+='<div style="text-align:left;border:1px solid #ccc;padding:8px;margin:5px">'+r.name+' ('+r.id+') - '+r.sub+' : '+r.score+'/'+r.total+'</div>'; });
+document.getElementById('resultList').innerHTML=rh||'Babu Result tukuna';
+document.getElementById('examTime').value=localStorage.getItem('ds_time')||20;
+}
+function toggleAllow(i){ let s=getStudents(); s[i].allow=!s[i].allow; localStorage.setItem('ds_students',JSON.stringify(s)); refreshTeacher(); }
+function resetStudent(i){ let s=getStudents(); s[i].done=false; localStorage.setItem('ds_students',JSON.stringify(s)); refreshTeacher(); alert('An bude masa'); }
+function delStudent(i){ if(confirm('Ka tabbata?')){ let s=getStudents(); s.splice(i,1); localStorage.setItem('ds_students',JSON.stringify(s)); refreshTeacher(); } }
+function clearResults(){ if(confirm('Goge duka Results?')){ localStorage.removeItem('ds_results'); refreshTeacher(); } }
+function studentLogin(){
+let name=document.getElementById('sname').value.trim(), sid=document.getElementById('sid').value.trim(), pass=document.getElementById('spass').value.trim();
+if(pass!=='DUAL@2024'){ document.getElementById('smsg').innerHTML='Wrong Password!'; return; }
+let s=getStudents();
+let found=s.find(x=>x.id==sid && x.name.toLowerCase()==name.toLowerCase());
+if(!found){ document.getElementById('smsg').innerHTML='Kai ba dan makaranta ba! Teacher ne kadai zai baka Exam No.'; return; }
+if(!found.allow){ document.getElementById('smsg').innerHTML='Teacher bai baka dama ba.'; return; }
+if(found.done){ document.getElementById('smsg').innerHTML='Ka riga ka yi Submit!'; return; }
+curStudent=found; show('exam');
+document.getElement
