@@ -4,47 +4,112 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DUAL SUCCESS CBT</title>
 <style>
-body{font-family:Arial;text-align:center;background:#e8f5e9;padding:15px}
-.box{background:white;padding:20px;border-radius:15px;max-width:480px;margin:auto}
-button{width:100%;padding:15px;margin:8px 0;border:none;border-radius:10px;font-size:18px;font-weight:bold;color:white}
-.blue{background:#1a56db}.green{background:#0a6b2e}.grey{background:#888}
-input{width:90%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
+body{font-family:Arial;text-align:center;background:#e8f5e9;padding:12px}
+.box{background:white;padding:18px;border-radius:15px;max-width:500px;margin:auto}
+button{width:100%;padding:14px;margin:7px 0;border:none;border-radius:10px;font-size:17px;font-weight:bold;color:white}
+.blue{background:#1a56db}.green{background:#0a6b2e}.grey{background:#888}.red{background:#c00}
+input,select,textarea{width:92%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
+.q{background:#f1f8e9;padding:12px;border-radius:10px;margin:10px 0;text-align:left}
 </style>
 </head>
 <body>
 <div class="box">
 <h1 style="color:#0a6b2e">DUAL SUCCESS TAHFEEDH SCHOOL</h1>
-<h2>OGBOMOSO - CBT SYSTEM</h2>
-
+<h3>OGBOMOSO - CBT SYSTEM</h3>
 <div id="home">
 <button class="blue" onclick="go('teacher')">TEACHER LOGIN</button>
 <button class="green" onclick="go('student')">STUDENT LOGIN - EXAM</button>
+<p>No student yet - Teacher must add student first</p>
 </div>
-
 <div id="teacher" style="display:none">
 <h2>Teacher Login</h2>
-<input placeholder="Username: DUAL SUCCESS">
-<input type="password" placeholder="Password: DUAL@2024">
-<button class="blue" onclick="alert('Teacher Login Works!')">LOGIN</button>
+<input id="tu" placeholder="Username: DUAL SUCCESS">
+<input id="tp" type="password" placeholder="Password: DUAL@2024">
+<button class="blue" onclick="tlogin()">LOGIN</button>
 <button class="grey" onclick="go('home')">BACK</button>
 </div>
-
+<div id="dash" style="display:none">
+<h2>Welcome Teacher!</h2>
+<p>Login Successful</p>
+<button class="green" onclick="go('addstu')">ADD STUDENT</button>
+<button class="blue" onclick="go('addexam')">CREATE EXAM</button>
+<button class="blue" onclick="go('viewstu')">VIEW STUDENTS</button>
+<button class="red" onclick="go('home')">LOGOUT</button>
+</div>
+<div id="addstu" style="display:none">
+<h2>Add Student</h2>
+<input id="sname" placeholder="Full Name">
+<input id="sno" placeholder="Exam No e.g DUAL001">
+<input id="spass" placeholder="Password e.g DUAL@2024">
+<button class="green" onclick="addstu()">SAVE STUDENT</button>
+<button class="grey" onclick="go('dash')">BACK</button>
+</div>
+<div id="viewstu" style="display:none">
+<h2>Students List</h2>
+<div id="list">No student yet</div>
+<button class="grey" onclick="go('dash')">BACK</button>
+</div>
+<div id="addexam" style="display:none">
+<h2>Create Exam</h2>
+<input id="examtitle" placeholder="Exam Title e.g Maths JSS1">
+<textarea id="q1" placeholder="Question 1: What is 2+2?"></textarea>
+<input id="a1" placeholder="Answer: 4">
+<button class="blue" onclick="saveexam()">SAVE EXAM</button>
+<button class="grey" onclick="go('dash')">BACK</button>
+</div>
 <div id="student" style="display:none">
 <h2>Student Login</h2>
-<input placeholder="Full Name">
-<input placeholder="Exam No">
-<input type="password" placeholder="Password: DUAL@2024">
-<button class="green" onclick="alert('Student Login Works!')">START EXAM</button>
+<input id="stname" placeholder="Full Name">
+<input id="stno" placeholder="Exam No">
+<input id="stpass" type="password" placeholder="Password: DUAL@2024">
+<button class="green" onclick="slogin()">START EXAM</button>
 <button class="grey" onclick="go('home')">BACK</button>
 </div>
-
+<div id="exam" style="display:none">
+<h2 id="etitle">Exam</h2>
+<div class="q"><b id="qq">Question will appear here</b><br><br><input id="ans" placeholder="Type your answer"></div>
+<button class="green" onclick="finish()">SUBMIT EXAM</button>
+</div>
+<div id="result" style="display:none">
+<h2>Result</h2><p id="rtext"></p>
+<button class="grey" onclick="go('home')">BACK TO HOME</button>
+</div>
 </div>
 <script>
+let students=[]; let myExam=null;
 function go(id){
-document.getElementById('home').style.display='none';
-document.getElementById('teacher').style.display='none';
-document.getElementById('student').style.display='none';
+['home','teacher','dash','addstu','viewstu','addexam','student','exam','result'].forEach(x=>document.getElementById(x).style.display='none');
 document.getElementById(id).style.display='block';
+}
+function tlogin(){
+if(document.getElementById('tu').value.trim()=='DUAL SUCCESS' && document.getElementById('tp').value=='DUAL@2024'){go('dash');}
+else{alert('Wrong Username or Password. Use DUAL SUCCESS / DUAL@2024');}
+}
+function addstu(){
+let n=document.getElementById('sname').value, no=document.getElementById('sno').value;
+if(!n||!no){alert('Fill Name and Exam No');return;}
+students.push(n+' - '+no);
+document.getElementById('list').innerHTML=students.join('<br>');
+alert('Student Saved: '+n); go('dash');
+}
+function saveexam(){
+let t=document.getElementById('examtitle').value||'Exam';
+myExam={title:t,q:document.getElementById('q1').value,ans:document.getElementById('a1').value};
+alert('Exam Saved: '+t); go('dash');
+}
+function slogin(){
+let n=document.getElementById('stname').value, no=document.getElementById('stno').value, p=document.getElementById('stpass').value;
+if(!n||!no){alert('Fill Name and Exam No');return;}
+if(p!='DUAL@2024'){alert('Wrong Password. Use DUAL@2024');return;}
+if(myExam){document.getElementById('etitle').innerText=myExam.title; document.getElementById('qq').innerText=myExam.q;}
+else{document.getElementById('etitle').innerText='Demo Exam'; document.getElementById('qq').innerText='What is 2+2?'; myExam={ans:'4'};}
+go('exam');
+}
+function finish(){
+let a=document.getElementById('ans').value.trim();
+let ok=(a=='4'||a.toLowerCase()==myExam.ans.toLowerCase());
+document.getElementById('rtext').innerText= ok ? 'Correct! Score: 100%' : 'Wrong. Correct Answer: '+myExam.ans+' Score: 0%';
+go('result');
 }
 </script>
 </body>
