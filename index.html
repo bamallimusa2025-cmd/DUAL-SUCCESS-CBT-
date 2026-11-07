@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUAL SUCCESS CBT</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    margin: 0;
+    text-align: center;
+}
+header {
+    background: #064e3b;
+    color: white;
+    padding: 25px 10px;
+}
+.container {
+    background: white;
+    max-width: 400px;
+    margin: 35px auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px #aaa;
+}
+input, select, button {
+    width: 90%;
+    padding: 13px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+button {
+    background: #064e3b;
+    color: white;
+    border: none;
+    font-size: 16px;
+}
+footer {
+    margin-top: 30px;
+    padding: 15px;
+    color: #555;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>DUAL SUCCESS TAHFEEDH SCHOOL</h2>
+<h3>OGBOMOSO</h3>
+<p>COMPUTER BASED TEST (CBT)</p>
+</header>
+
+<div class="container">
+
+<h2>Welcome to CBT Portal</h2>
+
+<p>Please select your login type</p>
+
+<select id="role">
+<option value="student">Student Login</option>
+<option value="teacher">Teacher Login</option>
+</select>
+
+<input type="text" id="examNumber"
+placeholder="Enter Examination Number">
+
+<input type="password" id="password"
+placeholder="Enter Password">
+
+<button onclick="login()">LOGIN</button>
+
+<p id="message"></p>
+
+</div>
+
+<footer>
+<p>© 2026 DUAL SUCCESS TAHFEEDH SCHOOL</p>
+<p>All Rights Reserved</p>
+</footer>
+
+<script>
+function login() {
+    document.getElementById("message").innerText =
+    "Login system is being prepared. Please contact your teacher.";
+}
+</script>
+
+</body>
+</html>
