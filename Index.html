@@ -4,21 +4,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DUAL SUCCESS CBT</title>
 <style>
-body{font-family:Arial;text-align:center;background:#f0f8f0;padding:20px}
-.box{background:white;padding:20px;border-radius:15px;max-width:400px;margin:auto;box-shadow:0 0 10px #ccc}
-h1{color:#0a6b2e;font-size:22px}
-h2{color:#333;font-size:16px}
-button{width:100%;padding:15px;margin:10px 0;border:none;border-radius:10px;font-size:17px;font-weight:bold;color:white;cursor:pointer}
-.green{background:#0a6b2e}.blue{background:#1a56db}
-input{width:90%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px}
+body{font-family:Arial;text-align:center;background:#e8f5e9;padding:15px}
+.box{background:white;padding:20px;border-radius:15px;max-width:480px;margin:auto;box-shadow:0 0 12px #aaa}
+h1{color:#0a6b2e;font-size:21px;margin:5px}
+h2{font-size:17px}
+button{width:100%;padding:13px;margin:8px 0;border:none;border-radius:10px;font-size:16px;font-weight:bold;color:white;cursor:pointer}
+.green{background:#0a6b2e}.blue{background:#1a56db}.red{background:red}.grey{background:#888}
+input,select,textarea{width:92%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:8px}
 .hidden{display:none}
+.qbox{text-align:left;background:#f9f9f9;padding:12px;border-radius:10px;margin:10px 0}
+label{display:block;margin:4px 0;text-align:left}
 </style>
 </head>
 <body>
 <div class="box">
+<img src="logo.png" style="width:140px;height:140px;border-radius:50%;border:4px solid gold;object-fit:cover">
 <h1>DUAL SUCCESS TAHFEEDH SCHOOL</h1>
 <h2>OGBOMOSO - CBT SYSTEM</h2>
-<p>Welcome to DUAL SUCCESS CBT Portal</p>
 
 <div id="home">
 <button class="blue" onclick="show('teacher')">TEACHER LOGIN</button>
@@ -27,56 +29,59 @@ input{width:90%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8p
 
 <div id="teacher" class="hidden">
 <h2>Teacher Login</h2>
-<input id="tuser" placeholder="Username: admin">
-<input id="tpass" type="password" placeholder="Password: DUAL">
+<input id="tuser" placeholder="Username: DUAL SUCCESS">
+<input id="tpass" type="password" placeholder="Password: DUAL@2024">
 <button class="blue" onclick="teacherLogin()">LOGIN</button>
-<button style="background:#888" onclick="back()">BACK</button>
+<button class="grey" onclick="back()">BACK</button>
 <p id="tmsg"></p>
+</div>
+
+<div id="teacherDash" class="hidden">
+<h2>Teacher Dashboard - Welcome DUAL SUCCESS</h2>
+<h3>1. Add Student (Password na kowa DUAL@2024)</h3>
+<input id="newName" placeholder="Student Name e.g. Musa Lawal">
+<input id="newID" placeholder="Exam No e.g. 9706">
+<label><input type="checkbox" id="allow" checked style="width:auto"> Bada dama ya yi Exam (Allow)</label>
+<button class="green" onclick="addStudent()">ADD STUDENT</button>
+<p id="addMsg"></p>
+<div id="studentList"></div>
+<hr>
+<h3>2. Set Exam Time (Minutes)</h3>
+<input id="examTime" type="number" value="20" placeholder="Time in Minutes">
+<button class="blue" onclick="saveTime()">SAVE TIME</button>
+<hr>
+<h3>3. Add Question</h3>
+<select id="qSub">
+<option>MATHEMATICS</option><option>PHYSICS</option><option>CHEMISTRY</option><option>BIOLOGY</option><option>CIVIC EDUCATION</option><option>AGRICULTURAL SCIENCE</option><option>GEOGRAPHY</option><option>ARABIC</option><option>ISLAMIC STUDIES</option><option>ENGLISH LANGUAGE</option><option>QURAN / TAHFEEDH</option><option>ECONOMICS</option><option>GOVERNMENT</option><option>LITERATURE</option><option>COMPUTER SCIENCE</option><option>HAUSA</option>
+</select>
+<textarea id="qText" placeholder="Tambaya..."></textarea>
+<input id="optA" placeholder="Option A"><input id="optB" placeholder="Option B"><input id="optC" placeholder="Option C"><input id="optD" placeholder="Option D">
+<select id="correct"><option value="A">Correct: A</option><option value="B">Correct: B</option><option value="C">Correct: C</option><option value="D">Correct: D</option></select>
+<input id="qMark" type="number" value="1" placeholder="Mark e.g. 2">
+<button class="green" onclick="addQuestion()">ADD QUESTION</button>
+<p id="qMsg"></p>
+<div id="qList"></div>
+<hr>
+<h3>4. Results - Teacher Kadai Yake Gani</h3>
+<div id="resultList"></div>
+<button class="red" onclick="clearResults()">CLEAR ALL RESULTS</button>
+<button class="grey" onclick="back()">LOGOUT</button>
 </div>
 
 <div id="student" class="hidden">
 <h2>Student Login</h2>
-<input id="sname" placeholder="Full Name: Musa Ahmed">
-<input id="sid" placeholder="Student ID: DS001">
-<input id="spass" type="password" placeholder="Password: musa123">
+<input id="sname" placeholder="Full Name: Musa Lawal">
+<input id="sid" placeholder="Exam No: 9706">
+<input id="spass" type="password" placeholder="Password: DUAL@2024">
 <button class="green" onclick="studentLogin()">START EXAM</button>
-<button style="background:#888" onclick="back()">BACK</button>
+<button class="grey" onclick="back()">BACK</button>
 <p id="smsg"></p>
 </div>
 
 <div id="exam" class="hidden">
-<h2>Welcome Musa Ahmed!</h2>
-<p>ID: DS001 | Class: JSS1</p>
+<h2 id="welcomeName"></h2>
+<p id="timer" style="color:red;font-weight:bold"></p>
 <p><b>Choose Subject:</b></p>
-<button class="green" onclick="alert('Quran Exam will start now - 20 Questions, 20 Minutes')">QURAN / TAHFEEDH</button>
-<button class="green" onclick="alert('Maths Exam will start now')">MATHEMATICS</button>
-<button class="green" onclick="alert('English Exam will start now')">ENGLISH</button>
-<button style="background:red" onclick="back()">LOGOUT</button>
-</div>
-
-</div>
-<script>
-function show(id){
-document.getElementById('home').style.display='none';
-document.getElementById('teacher').style.display='none';
-document.getElementById('student').style.display='none';
-document.getElementById('exam').style.display='none';
-document.getElementById(id).style.display='block';
-}
-function back(){
-show('home');
-document.getElementById('home').style.display='block';
-}
-function teacherLogin(){
-if(document.getElementById('tuser').value=='admin' && document.getElementById('tpass').value=='DUAL'){
-alert('Welcome Teacher! Login Successful');
-}else{ document.getElementById('tmsg').innerHTML='Wrong Username or Password! Try admin / DUAL'; }
-}
-function studentLogin(){
-if(document.getElementById('sid').value=='DS001'){
-show('exam');
-}else{ document.getElementById('smsg').innerHTML='Wrong ID! Try DS001'; }
-}
-</script>
-</body>
-</html>
+<div id="subBtns"></div>
+<div id="examArea"></div>
+<button
