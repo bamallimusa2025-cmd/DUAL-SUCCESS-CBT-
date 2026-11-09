@@ -1,119 +1,52 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DUAL SUCCESS - CBT</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#dcefe0;font-family:Arial} .card{max-width:520px;margin:12px auto;background:#fff;padding:18px;border-radius:18px;box-shadow:0 4px 20px #0002}
-h1{color:#0a6b2e;text-align:center;margin:4px 0;font-size:24px}h2{text-align:center;margin:6px 0}h3{text-align:center}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1.5px solid #ccc;border-radius:10px;font-size:16px}
-button{width:100%;padding:13px;margin:6px 0;border:0;border-radius:10px;font-size:17px;font-weight:700;color:#fff;cursor:pointer}
-.blue{background:#2563eb}.green{background:#15803d}.gray{background:#6b7280}.red{background:#dc2626}.black{background:#111}.orange{background:#ea580c}
-.item{background:#eef4ff;padding:10px;border-radius:10px;margin:6px 0;text-align:center}
-.small{font-size:13px;color:#555;text-align:center}
-.palette{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.pal{width:38px;height:38px;border-radius:8px;border:1px solid #999;background:#fff;cursor:pointer}.pal.done{background:#2563eb;color:#fff}.pal.cur{outline:3px solid #f59e0b}
-#calc{background:#111;color:#fff;padding:10px;border-radius:10px;text-align:center}#calc input{background:#fff;color:#000;text-align:right}
-.top{display:flex;justify-content:space-between;align-items:center}
-</style></head><body>
-
-<div class="card" id="home">
-<h1>DUAL SUCCESS<br>TAHFEEDH SCHOOL</h1><h2>OGBOMOSO - CBT SYSTEM</h2>
-<p class="small">2025/2026 SESSION</p>
-<button class="blue" onclick="show('tlogin')">TEACHER LOGIN</button>
-<button class="green" onclick="show('slogin')">STUDENT LOGIN - EXAM</button>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DUAL SUCCESS TAHFEEDH SCHOOL - CBT</title><style>*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#eef2f7;color:#111}header{background:#0b3d91;color:#fff;padding:14px;text-align:center}header h1{margin:0;font-size:20px}header p{margin:4px 0 0;font-size:12px}.wrap{max-width:980px;margin:14px auto;padding:0 12px}.card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.08);margin-bottom:14px}h2{margin:0 0 10px}input,select,textarea{width:100%;padding:11px;border:1px solid #ccc;border-radius:8px;margin:6px 0;font-size:15px}button{padding:11px 16px;border:0;border-radius:8px;background:#0b3d91;color:#fff;font-weight:700;cursor:pointer;margin:4px 2px}button.green{background:#0a7a3a}button.red{background:#c00}button.orange{background:#e67e22}button.grey{background:#666}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}.hidden{display:none}.badge{background:#ffeeba;padding:6px 10px;border-radius:20px;font-size:13px;display:inline-block}.qpal{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.qpal button{width:38px;height:38px;padding:0;background:#ddd;color:#111}.qpal button.done{background:#0a7a3a;color:#fff}.qpal button.cur{outline:3px solid #0b3d91}.opt{display:block;background:#f3f3f3;padding:11px;border-radius:8px;margin:6px 0;cursor:pointer}.opt input{width:auto}.topbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:#111;color:#fff;padding:10px;border-radius:10px}.timer{font-size:20px;font-weight:900;color:#ffeb3b}.calc{position:fixed;right:12px;bottom:12px;background:#fff;border:1px solid #ccc;padding:10px;border-radius:10px;width:230px;display:none;z-index:99;box-shadow:0 5px 20px rgba(0,0,0,.2)}.calc input{font-size:18px;text-align:right}.calc button{width:48px;background:#eee;color:#111}table{width:100%;border-collapse:collapse;font-size:13px}td,th{border:1px solid #ddd;padding:7px;text-align:left}@media(max-width:600px){.row>*{flex-basis:100%}}</style></head>
+<body><header><h1>DUAL SUCCESS TAHFEEDH SCHOOL</h1><p>2025/2026 SESSION - CBT EXAM PORTAL</p></header><div class="wrap">
+<div id="home" class="card"><h2>Welcome</h2><p>Select your role:</p><button onclick="show('teacherLogin')">TEACHER LOGIN</button><button class="green" onclick="show('studentLogin')">STUDENT LOGIN</button><p style="font-size:13px;color:#555">Student: Name + Exam Number + Password. Only students added by Teacher can login.</p></div>
+<div id="teacherLogin" class="card hidden"><h2>Teacher Login</h2><input id="tUser" placeholder="Username"><input id="tPass" type="password" placeholder="Password"><button onclick="teacherLogin()">LOGIN</button><button class="grey" onclick="show('home')">BACK</button><p id="tErr" style="color:red"></p></div>
+<div id="teacherDash" class="card hidden"><h2>Teacher Dashboard <span class="badge">2025/2026</span></h2><button class="red" onclick="logout()">LOGOUT</button><button class="orange" onclick="copyExamLink()">COPY SHARE LINK</button><p id="linkBox" style="word-break:break-all;font-size:12px;background:#f0f0f0;padding:8px;border-radius:8px"></p>
+<h3>1. Add Subject</h3><div class="row"><input id="newSubj" placeholder="e.g. Qur'an, Physics..."><button onclick="addSubject()">+ Add Subject</button></div><div id="subjList"></div>
+<h3>2. Add Student</h3><div class="row"><input id="sName" placeholder="Student Name"><input id="sExam" placeholder="Exam Number"><input id="sPass" type="password" placeholder="Password"></div><button class="green" onclick="addStudent()">ADD STUDENT</button><div id="studList"></div>
+<h3>3. Add Questions</h3><label>Select Subject</label><select id="qSubj"></select><label>Time (minutes)</label><input id="qTime" type="number" value="30"><label>Mark Per Question</label><input id="qMark" type="number" value="1"><label>Question</label><textarea id="qText" placeholder="Write question..."></textarea><div class="row"><input id="oA" placeholder="Option A"><input id="oB" placeholder="Option B"></div><div class="row"><input id="oC" placeholder="Option C"><input id="oD" placeholder="Option D"></div><label>Correct Answer</label><select id="qAns"><option>A</option><option>B</option><option>C</option><option>D</option></select><button class="green" onclick="addQuestion()">+ ADD QUESTION</button>
+<h3>4. Upload Questions (File)</h3><p style="font-size:13px">Upload .csv or .txt file. Each line format:<br><b>Question | A | B | C | D | Answer (A/B/C/D)</b><br>Example: What is 2+2? | 3 | 4 | 5 | 6 | B</p><input type="file" id="upQues" accept=".csv,.txt"><button onclick="uploadQuestions()">UPLOAD QUESTIONS</button><p style="font-size:13px">Or paste many questions below - one per line:</p><textarea id="bulkText" rows="4" placeholder="Example: What is 2+2? | 3 | 4 | 5 | 6 | B"></textarea><button onclick="addBulk()">ADD BULK QUESTIONS</button><div id="quesList"></div>
+<h3>5. Allow To Start Exam</h3><label><input type="checkbox" id="allowExam" onchange="saveAllow()" style="width:auto"> Allow Students to Start Exam</label>
+<h3>6. Results - Teacher Only</h3><button onclick="renderResults()">Refresh Results</button><button onclick="downloadResults()">Download Results (CSV)</button><label>Upload Result (CSV)</label><input type="file" id="upRes" accept=".csv" onchange="uploadResult(event)"><p style="font-size:12px">CSV format: Name,ExamNo,Subject,Score</p><div id="resList"></div><button class="red" onclick="clearResults()">DELETE ALL RESULTS</button>
+<h3>7. Add Result Manually</h3><div class="row"><input id="rName" placeholder="Name"><input id="rExam" placeholder="Exam No"><input id="rSubj" placeholder="Subject"><input id="rScore" placeholder="Score"></div><button onclick="addManualResult()">+ Add Result</button>
 </div>
-
-<div class="card" id="tlogin" style="display:none">
-<h1>DUAL SUCCESS<br>TAHFEEDH SCHOOL</h1><h2>Teacher Login</h2>
-<input id="tuser" placeholder="Username - DUAL SUCCESS 2025/2026"><input id="tpass" type="password" placeholder="Password">
-<button class="blue" onclick="teacherLogin()">LOGIN</button><button class="gray" onclick="show('home')">BACK</button>
-<p class="small">Username: DUAL SUCCESS 2025/2026<br>Password: DUAL@2024</p></div>
-
-<div class="card" id="tdash" style="display:none">
-<h2>Teacher Dashboard</h2>
-<button class="black" onclick="copyShareLink()">📤 COPY SHARE LINK - Tura wa Students</button>
-<p class="small">⚠️ Kada ka tura tsohon link! Ka tura WANNAN SHARE LINK din - Exam yana cikinsa - zai yi a kowace waya!</p>
-<h3>1. Add Student</h3>
-<input id="sname" placeholder="Student Name"><input id="sno" placeholder="Exam Number - misali SC1001">
-<label><input type="checkbox" id="sallow" checked style="width:auto"> Allow to take Exam</label>
-<button class="green" onclick="addStudent()">ADD STUDENT</button><div id="slist"></div>
-<h3>2. Create Exam / Subject</h3>
-<select id="subj">
-<option>Qur'an</option><option>English Language</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Civic Education</option><option>Agriculture Science</option><option>Geography</option><option>Arabic</option><option>Data Processing</option><option>Mathematics</option><option>Economics</option><option>Government</option><option>Literature</option><option>CRS / IRS</option><option>Computer Science</option><option>Further Mathematics</option>
-</select>
-<input id="etime" type="number" value="30" placeholder="Time (minutes)"><input id="emarks" type="number" value="1" placeholder="Mark per Question">
-<input id="qtext" placeholder="Question"><input id="oa" placeholder="Option A"><input id="ob" placeholder="Option B"><input id="oc" placeholder="Option C"><input id="od" placeholder="Option D">
-<select id="ans"><option value="A">Correct Answer: A</option><option value="B">Correct Answer: B</option><option value="C">Correct Answer: C</option><option value="D">Correct Answer: D</option></select>
-<button class="blue" onclick="addQuestion()">ADD QUESTION</button>
-<p class="small">Ko ka liƙa da yawa a nan - kowace layi: Tambaya | A | B | C | D | Amsa (A/B/C/D)</p>
-<textarea id="bulk" rows="4" placeholder="Misali: 2+2=? | 3 | 4 | 5 | 6 | B"></textarea>
-<button class="blue" onclick="addBulk()">ADD BULK QUESTIONS</button>
-<button class="green" onclick="saveExam()">SAVE EXAM</button>
-<div id="qlist"></div><div id="elist"></div>
-<h3>Results - Teacher Only</h3>
-<div id="rlist"></div>
-<button class="black" onclick="downloadCSV()">⬇ DOWNLOAD RESULTS (CSV)</button>
-<button class="orange" onclick="window.print()">🖨 PRINT RESULTS</button>
-<button class="red" onclick="clearResults()">🗑 CLEAR ALL RESULTS</button>
-<button class="gray" onclick="logout()">LOGOUT</button></div>
-
-<div class="card" id="slogin" style="display:none">
-<h1>DUAL SUCCESS<br>TAHFEEDH SCHOOL</h1><h2>Student Login</h2>
-<input id="stname" placeholder="Full Name"><input id="stno" placeholder="Exam Number"><input id="stpass" type="password" placeholder="Password - DUAL@2024">
-<p>Select Subject:</p><select id="ssubj"></select>
-<button class="green" onclick="studentLogin()">START EXAM</button><button class="gray" onclick="show('home')">BACK</button>
-<p class="small" style="color:#dc2626">You are not a student! Only Teacher can give you Exam No.</p></div>
-
-<div class="card" id="instr" style="display:none">
-<h2>Instructions</h2><p>1. Karanta kowace tambaya da kyau.<br>2. Kada ka yi Copy / Cheating.<br>3. Time zai kare - Exam zai tafi da kansa (Auto Submit).<br>4. Da ka gama, danna SUBMIT.<br>5. Ba za ka ga Result ba - Teacher kawai zai gani.</p>
-<button class="green" onclick="beginExam()">NEXT - START EXAM</button></div>
-
-<div class="card" id="exambox" style="display:none">
-<div class="top"><b id="exname"></b><b id="timer" style="color:red"></b></div>
-<div id="calc"><input id="cdisp" readonly><br>
-<button style="width:23%;background:#333" onclick="calc('7')">7</button><button style="width:23%;background:#333" onclick="calc('8')">8</button><button style="width:23%;background:#333" onclick="calc('9')">9</button><button style="width:23%;background:#ea580c" onclick="calc('/')">/</button>
-<button style="width:23%;background:#333" onclick="calc('4')">4</button><button style="width:23%;background:#333" onclick="calc('5')">5</button><button style="width:23%;background:#333" onclick="calc('6')">6</button><button style="width:23%;background:#ea580c" onclick="calc('*')">x</button>
-<button style="width:23%;background:#333" onclick="calc('1')">1</button><button style="width:23%;background:#333" onclick="calc('2')">2</button><button style="width:23%;background:#333" onclick="calc('3')">3</button><button style="width:23%;background:#ea580c" onclick="calc('-')">-</button>
-<button style="width:23%;background:#333" onclick="calc('0')">0</button><button style="width:23%;background:#333" onclick="calc('.')">.</button><button style="width:23%;background:#dc2626" onclick="calc('C')">C</button><button style="width:23%;background:#ea580c" onclick="calc('+')">+</button>
-<button style="width:100%;background:#15803d" onclick="calc('=')">= RESULT</button></div>
-<div class="palette" id="palette"></div>
-<h3 id="qno"></h3><p id="qtxt" style="font-size:18px"></p><div id="opts"></div>
-<button class="gray" onclick="move(-1)">◀ PREVIOUS</button><button class="blue" onclick="move(1)">NEXT ▶</button>
-<button class="red" onclick="confirmSubmit()">SUBMIT EXAM</button></div>
-
-<div class="card" id="done" style="display:none"><h2>✅ Exam Submitted Successfully</h2><p class="small">Na gode! Teacher zai ga Result dinka. Kada ka sake shiga.</p><button class="gray" onclick="show('home')">HOME</button></div>
-
+<div id="studentLogin" class="card hidden"><h2>Student Login</h2><input id="stName" placeholder="Full Name"><input id="stExam" placeholder="Exam Number"><input id="stPass" type="password" placeholder="Password"><button class="green" onclick="studentLogin()">LOGIN</button><button class="grey" onclick="show('home')">BACK</button><p id="sErr" style="color:red"></p></div>
+<div id="instruct" class="card hidden"><h2>Instructions</h2><ol><li>Read each question carefully.</li><li>Choose only one answer.</li><li>Do not leave the exam - if time ends, it will submit automatically.</li><li>When you finish, click Submit - it will ask Are you sure?</li><li>You will not see your result - only Teacher will see it.</li></ol><p><b>Subject:</b> <span id="insSubj"></span> | <b>Time:</b> <span id="insTime"></span> mins | <b>Questions:</b> <span id="insCount"></span></p><button class="green" onclick="startExam()">NEXT - START EXAM</button></div>
+<div id="examBox" class="card hidden"><div class="topbar"><span id="examTitle">EXAM</span><span class="timer" id="timer">--:--</span><button onclick="toggleCalc()">Calculator</button></div><div id="qpal" class="qpal"></div><h3 id="qNum"></h3><p id="qTextShow" style="font-size:17px"></p><div id="opts"></div><div class="row"><button class="grey" onclick="prevQ()">Previous</button><button onclick="nextQ()">Next</button></div><button class="red" style="width:100%;margin-top:10px" onclick="confirmSubmit()">SUBMIT EXAM</button></div>
+<div id="successBox" class="card hidden"><h2>Exam Submitted Successfully!</h2><p>Thank you - You have finished your exam. Teacher will see your result.</p><button onclick="show('home')">Back to Home</button></div>
+</div>
+<div class="calc" id="calcBox"><input id="calcDisp" readonly><div><button onclick="calcAdd('7')">7</button><button onclick="calcAdd('8')">8</button><button onclick="calcAdd('9')">9</button><button onclick="calcAdd('/')">/</button><button onclick="calcAdd('4')">4</button><button onclick="calcAdd('5')">5</button><button onclick="calcAdd('6')">6</button><button onclick="calcAdd('*')">*</button><button onclick="calcAdd('1')">1</button><button onclick="calcAdd('2')">2</button><button onclick="calcAdd('3')">3</button><button onclick="calcAdd('-')">-</button><button onclick="calcAdd('0')">0</button><button onclick="calcAdd('.')">.</button><button onclick="calcEq()">=</button><button onclick="calcAdd('+')">+</button><button onclick="calcClear()">C</button></div><button class="grey" onclick="toggleCalc()">Close</button></div>
 <script>
-var KEY='dual_new_v1';
-function load(){try{return JSON.parse(localStorage.getItem(KEY))||{students:[],exams:[],results:[],tmpQs:[]}}catch(e){return{students:[],exams:[],results:[],tmpQs:[]}}}
-function save(d){localStorage.setItem(KEY,JSON.stringify(d))}
-// SHARE LINK - Exam + Students suna cikin Link - don kowace waya!
-try{
-if(location.hash.indexOf('d=')>-1){var dd=JSON.parse(decodeURIComponent(escape(atob(location.hash.split('d=')[1]))));if(dd&&dd.exams){save(dd);alert('Exam ya shigo daga Link - ka yi Login yanzu!');}}
-}catch(e){}
-function show(id){['home','tlogin','tdash','slogin','instr','exambox','done'].forEach(function(x){document.getElementById(x).style.display=(x==id?'block':'none')});if(id=='slogin')fillSubjects();if(id=='tdash')renderTeacher();}
-function teacherLogin(){if(document.getElementById('tuser').value.trim()=='DUAL SUCCESS 2025/2026'&&document.getElementById('tpass').value=='DUAL@2024'){show('tdash')}else alert('Wrong Username / Password');}
+let DB=JSON.parse(localStorage.getItem('DUAL_DB')||'{"subjects":["Qur\'an","English Language","Physics","Chemistry","Biology","Civic Education","Agriculture Science","Geography","Arabic Science","Data Processing"],"students":[],"questions":[],"results":[],"allow":false,"times":{},"marks":{}}');
+function save(){localStorage.setItem('DUAL_DB',JSON.stringify(DB)); try{let u=new URL(location.href);u.hash=btoa(unescape(encodeURIComponent(JSON.stringify(DB))));history.replaceState(null,'',u);}catch(e){}}
+try{if(location.hash.length>10){let d=JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(1)))));if(d.subjects){DB=d;localStorage.setItem('DUAL_DB',JSON.stringify(DB));}}}catch(e){}
+function show(id){['home','teacherLogin','teacherDash','studentLogin','instruct','examBox','successBox'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');if(id=='teacherDash')renderTeacher();}
+function teacherLogin(){if(document.getElementById('tUser').value.trim()=='DUAL SUCCESS 2025/2026 session'&&document.getElementById('tPass').value=='DUAL@2024'){show('teacherDash')}else document.getElementById('tErr').innerText='Wrong Username or Password!';}
 function logout(){show('home')}
-function addStudent(){var d=load();var n=document.getElementById('sname').value.trim(),no=document.getElementById('sno').value.trim().toUpperCase();if(!n||!no)return alert('Saka Name da Exam No');d.students.push({name:n,no:no,allow:document.getElementById('sallow').checked});save(d);document.getElementById('sname').value='';document.getElementById('sno').value='';renderTeacher();}
-function delStudent(i){var d=load();d.students.splice(i,1);save(d);renderTeacher();}
-function addQuestion(){var q=document.getElementById('qtext').value.trim();var o=[document.getElementById('oa').value,document.getElementById('ob').value,document.getElementById('oc').value,document.getElementById('od').value];if(!q||o.some(function(x){return!x}))return alert('Cika Question da Options');var d=load();d.tmpQs.push({q:q,opts:o,ans:document.getElementById('ans').value});save(d);['qtext','oa','ob','oc','od'].forEach(function(x){document.getElementById(x).value=''});renderTeacher();}
-function addBulk(){var t=document.getElementById('bulk').value.trim();if(!t)return;var d=load();t.split('\n').forEach(function(line){var p=line.split('|').map(function(s){return s.trim()});if(p.length>=7){d.tmpQs.push({q:p[0],opts:[p[1],p[2],p[3],p[4]],ans:p[5].toUpperCase()})}});save(d);document.getElementById('bulk').value='';renderTeacher();}
-function saveExam(){var d=load();if(!d.tmpQs.length)return alert('Babu Question');var ex={title:document.getElementById('subj').value,dur:parseInt(document.getElementById('etime').value)||30,marks:parseInt(document.getElementById('emarks').value)||1,qs:d.tmpQs};d.exams=d.exams.filter(function(e){return e.title!=ex.title});d.exams.push(ex);d.tmpQs=[];save(d);alert('Exam Saved - '+ex.title);renderTeacher();}
-function delExam(i){var d=load();d.exams.splice(i,1);save(d);renderTeacher();}
-function delResult(i){var d=load();d.results.splice(i,1);save(d);renderTeacher();}
-function clearResults(){if(confirm('Ka goge duka Results?')){var d=load();d.results=[];save(d);renderTeacher();}}
-function renderTeacher(){var d=load();document.getElementById('slist').innerHTML=d.students.map(function(s,i){return '<div class=item>'+s.name+' ('+s.no+') - '+(s.allow?'Allowed':'Not Allowed')+' <button class=red style="width:auto;padding:6px 14px" onclick="delStudent('+i+')">Delete</button></div>'}).join('')||'Babu Student';
-document.getElementById('qlist').innerHTML='<b>Questions da ka saka yanzu: '+d.tmpQs.length+'</b>';
-document.getElementById('elist').innerHTML='<h3>Exams / Subjects</h3>'+(d.exams.map(function(e,i){return '<div class=item>'+e.title+' - '+e.qs.length+' Qs - '+e.dur+' mins <button class=red style="width:auto;padding:6px 14px" onclick="delExam('+i+')">Delete</button></div>'}).join('')||'No exam yet');
-document.getElementById('rlist').innerHTML=d.results.map(function(r,i){return '<div class=item>'+r.name+' ('+r.no+') - '+r.subj+' - '+r.score+'/'+r.total+' <button class=red style="width:auto;padding:6px 14px" onclick="delResult('+i+')">Delete</button></div>'}).join('')||'No result yet';}
-function fillSubjects(){var d=load();document.getElementById('ssubj').innerHTML=d.exams.length?d.exams.map(function(e){return '<option>'+e.title+'</option>'}).join(''):'<option>No exam - Teacher has not created yet</option>';}
-function copyShareLink(){var d=load();var code=btoa(unescape(encodeURIComponent(JSON.stringify(d))));var link=location.origin+location.pathname+'#d='+code;if(navigator.clipboard)navigator.clipboard.writeText(link);prompt('Copy wannan Link - tura wa Students:',link);}
-function downloadCSV(){var d=load();if(!d.results.length)return alert('Babu Result');var csv='Name,Exam No,Subject,Score,Total\n'+d.results.map(function(r){return r.name+','+r.no+','+r.subj+','+r.score+','+r.total}).join('\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='results.csv';a.click();}
-var cur=null,curIdx=0,curAns=[],curStudent=null,timerInt=null,left=0;
-function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-function studentLogin(){var d=load();var n=document.getElementById('stname').value.trim(),no=document.getElementById('stno').value.trim().toUpperCase(),p=document.getElementById('stpass').value;var st=d.students.find(function(s){return s.name.toLowerCase()==n.toLowerCase()&&s.no==no});if(p!='DUAL@2024')return alert('Wrong Password - DUAL@2024');if(!st)return alert('You are not a student! Only Teacher can give you Exam No.');if(!st.allow)return alert('Teacher bai baka Allow ba - jira Teacher!');var ex=d.exams.find(function(e){return e.title==document.getElementById('ssubj').value});if(!ex)return alert('No exam yet');curStudent=st;cur=JSON.parse(JSON.stringify(ex));cur.qs=shuffle(cur.qs);cur.qs.forEach(function(q){var corr=q.opts['ABCD'.indexOf(q.ans)];q.opts=shuffle(q.opts);q.ans='ABCD'[q.opts.indexOf(corr)]});curAns=new Array(cur.qs.length).fill(null);curIdx=0;show('instr');}
-function beginExam(){show('exambox');document.getElementById('exname').innerText=cur.title+' - '+curStudent.name;left=cur.dur*60;clearInterval(timerInt);timerInt=setInterval(function(){left--;var m=Math.floor(left/60),s=left%60;document.getElementById('timer').innerText=m+':'+(s<10?'0':'')+s;if(left<=0){clearInterval(timerInt);doSubmit();}},1000);renderQ();}
-function renderQ(){var q=cur.qs[curIdx];document.getElementById('qno').innerText='Question '+(curIdx+1)+' of '+cur.qs.length;document.getElementById('qtxt').innerText=q.q;document.getElementById('opts').innerHTML=q.opts.map(function(o,i){var L='ABCD'[i];return '<label style="display:block;background:#f3f4f6;padding:10px;border-radius:10px;margin:5px 0"><input type=radio name=opt '+(curAns[curIdx]==L?'checked':'')+' onclick="curAns['+curIdx+']=\''+L+'\';renderQ()"> '+L+'. '+o+'</label>'}).join('');document.getElementById('palette').innerHTML=cur.qs.map(function(_,i){return '<button class="pal '+(curAns[i]?'done':'')+' '+(i==curIdx?'cur':'')+'" onclick="curIdx='+i+';renderQ()">'+(i+1)+'</button>'}).join('');}
-function move(n){curIdx=Math.max(0,Math.min(cur.qs.length-1,curIdx+n));renderQ();}
-function calc(v){var d=document.getElementById('cdisp');if(v=='C')d.value='';else if(v=='='){try{d.value=eval(d.value)}catch(e){d.value='Error'}}else d.value+=v;}
-function confirmSubmit(){if(confirm('Are you sure to submit exam? Yes / No'))doSubmit();}
-function doSubmit(){clearInterval(timerInt);var score=0;cur.qs.forEach(function(q,i){if(curAns[i]==q.ans)score+=cur.marks});var d=load();d.results.push({name:curStudent.name,no:curStudent.no,subj:cur.title,score:score,total:cur.qs.length*cur.marks});save(d);show('done');}
+function addSubject(){let v=document.getElementById('newSubj').value.trim();if(!v)return;if(!DB.subjects.includes(v))DB.subjects.push(v);document.getElementById('newSubj').value='';save();renderTeacher();}
+function addStudent(){let n=document.getElementById('sName').value.trim(),e=document.getElementById('sExam').value.trim(),p=document.getElementById('sPass').value||'DUAL@2024';if(!n||!e)return alert('Enter Name and Exam Number');DB.students.push({name:n,exam:e,pass:p});save();renderTeacher();}
+function addQuestion(){let s=document.getElementById('qSubj').value,t=+document.getElementById('qTime').value||30,m=+document.getElementById('qMark').value||1,q=document.getElementById('qText').value.trim(),a=document.getElementById('oA').value,b=document.getElementById('oB').value,c=document.getElementById('oC').value,d=document.getElementById('oD').value,ans=document.getElementById('qAns').value;if(!q||!a||!b)return alert('Fill Question and Options');DB.questions.push({subj:s,q:q,A:a,B:b,C:c,D:d,ans:ans});DB.times[s]=t;DB.marks[s]=m;['qText','oA','oB','oC','oD'].forEach(i=>document.getElementById(i).value='');save();renderTeacher();}
+function parseBulk(text){let s=document.getElementById('qSubj').value,t=+document.getElementById('qTime').value||30,m=+document.getElementById('qMark').value||1,cnt=0;text.split('\n').forEach(l=>{let p=l.split('|').map(x=>x.trim());if(p.length>=7){DB.questions.push({subj:s,q:p[0],A:p[1],B:p[2],C:p[3],D:p[4],ans:p[5].toUpperCase()});DB.times[s]=t;DB.marks[s]=m;cnt++;}});return cnt;}
+function addBulk(){let c=parseBulk(document.getElementById('bulkText').value);document.getElementById('bulkText').value='';if(c==0)return alert('Wrong format. Use: Question | A | B | C | D | Answer');save();renderTeacher();alert(c+' Questions Added');}
+function uploadQuestions(){let f=document.getElementById('upQues').files[0];if(!f)return alert('Select a file first');let r=new FileReader();r.onload=()=>{let c=parseBulk(r.result);save();renderTeacher();alert(c+' Questions Uploaded');};r.readAsText(f);}
+function saveAllow(){DB.allow=document.getElementById('allowExam').checked;save();}
+function renderTeacher(){document.getElementById('allowExam').checked=DB.allow;document.getElementById('subjList').innerHTML=DB.subjects.map((s,i)=>`<span class="badge">${s} <a href="#" onclick="DB.subjects.splice(${i},1);save();renderTeacher();return false">x</a></span> `).join('');document.getElementById('qSubj').innerHTML=DB.subjects.map(s=>`<option>${s}</option>`).join('');document.getElementById('studList').innerHTML='<h4>Students ('+DB.students.length+')</h4>'+(DB.students.length?'<table><tr><th>Name</th><th>Exam No</th><th></th></tr>'+DB.students.map((s,i)=>`<tr><td>${s.name}</td><td>${s.exam}</td><td><button class="red" onclick="DB.students.splice(${i},1);save();renderTeacher()">Delete</button></td></tr>`).join('')+'</table>':'<p>No Student Yet</p>');document.getElementById('quesList').innerHTML='<h4>Questions Added: '+DB.questions.length+'</h4>'+DB.questions.map((q,i)=>`<p><b>${q.subj}:</b> ${q.q} - Ans: ${q.ans} <button class="red" onclick="DB.questions.splice(${i},1);save();renderTeacher()">Delete</button></p>`).join('');renderResults();}
+function renderResults(){document.getElementById('resList').innerHTML=DB.results.length?'<table><tr><th>Name</th><th>ExamNo</th><th>Subject</th><th>Score</th><th></th></tr>'+DB.results.map((r,i)=>`<tr><td>${r.name}</td><td>${r.exam}</td><td>${r.subj}</td><td>${r.score}</td><td><button class="red" onclick="DB.results.splice(${i},1);save();renderResults()">Delete</button></td></tr>`).join('')+'</table>':'<p>No Result Yet</p>';}
+function clearResults(){if(confirm('Are you sure you want to delete all results?')){DB.results=[];save();renderResults();}}
+function addManualResult(){let n=document.getElementById('rName').value,e=document.getElementById('rExam').value,s=document.getElementById('rSubj').value,sc=document.getElementById('rScore').value;if(!n||!e)return alert('Enter Name and Exam No');DB.results.push({name:n,exam:e,subj:s,score:sc});save();renderResults();}
+function downloadResults(){let csv='Name,ExamNo,Subject,Score\n'+DB.results.map(r=>`${r.name},${r.exam},${r.subj},${r.score}`).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='DUAL_Results.csv';a.click();}
+function uploadResult(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{r.result.split('\n').slice(1).forEach(l=>{let p=l.split(',');if(p.length>=4)DB.results.push({name:p[0].trim(),exam:p[1].trim(),subj:p[2].trim(),score:p[3].trim()})});save();renderResults();alert('Upload Done!')};r.readAsText(f);}
+function copyExamLink(){save();let link=location.href.split('#')[0]+'#'+btoa(unescape(encodeURIComponent(JSON.stringify(DB))));document.getElementById('linkBox').innerText=link;navigator.clipboard.writeText(link).then(()=>alert('Exam Link Copied! - Send it to Students'));}
+let curStudent=null,curSubj='',curQs=[],curIdx=0,answers={},timerInt=null,secondsLeft=0;
+function studentLogin(){let n=document.getElementById('stName').value.trim(),e=document.getElementById('stExam').value.trim(),p=document.getElementById('stPass').value;let f=DB.students.find(s=>s.name.toLowerCase()==n.toLowerCase()&&s.exam.toLowerCase()==e.toLowerCase()&&s.pass==p);if(!f){document.getElementById('sErr').innerText='Not Found! Only Teacher can add you.';return;}if(!DB.allow){document.getElementById('sErr').innerText='Teacher has not allowed exam to start yet. Please wait!';return;}if(DB.questions.length==0){document.getElementById('sErr').innerText='No Exam Created - Teacher has not added questions yet!';return;}curStudent=f;let subs=[...new Set(DB.questions.map(q=>q.subj))];curSubj=subs[0];curQs=DB.questions.filter(q=>q.subj==curSubj);document.getElementById('insSubj').innerText=curSubj;document.getElementById('insTime').innerText=DB.times[curSubj]||30;document.getElementById('insCount').innerText=curQs.length;show('instruct');}
+function startExam(){show('examBox');curIdx=0;answers={};secondsLeft=(DB.times[curSubj]||30)*60;renderQ();clearInterval(timerInt);timerInt=setInterval(()=>{secondsLeft--;let m=Math.floor(secondsLeft/60),s=secondsLeft%60;document.getElementById('timer').innerText=(m<10?'0'+m:m)+':'+(s<10?'0'+s:s);if(secondsLeft<=0){clearInterval(timerInt);alert('Time is over! - Automatic Submit');doSubmit();}},1000);}
+function renderQ(){let q=curQs[curIdx];document.getElementById('examTitle').innerText=curSubj+' - '+curStudent.name+' ('+curStudent.exam+')';document.getElementById('qNum').innerText='Question '+(curIdx+1)+' / '+curQs.length;document.getElementById('qTextShow').innerText=q.q;document.getElementById('opts').innerHTML=['A','B','C','D'].map(L=>`<label class="opt"><input type="radio" name="opt" ${answers[curIdx]==L?'checked':''} onchange="answers[${curIdx}]='${L}';renderPal()"> ${L}. ${q[L]}</label>`).join('');renderPal();}
+function renderPal(){document.getElementById('qpal').innerHTML=curQs.map((_,i)=>`<button class="${answers[i]?'done':''} ${i==curIdx?'cur':''}" onclick="curIdx=${i};renderQ()">${i+1}</button>`).join('');}
+function nextQ(){if(curIdx<curQs.length-1){curIdx++;renderQ();}}function prevQ(){if(curIdx>0){curIdx--;renderQ();}}
+function confirmSubmit(){if(confirm('Are you sure to submit exam?'))doSubmit();}
+function doSubmit(){clearInterval(timerInt);let mark=DB.marks[curSubj]||1,score=0;curQs.forEach((q,i)=>{if(answers[i]==q.ans)score+=mark});DB.results.push({name:curStudent.name,exam:curStudent.exam,subj:curSubj,score:score+' / '+(curQs.length*mark)});save();show('successBox');}
+function toggleCalc(){let c=document.getElementById('calcBox');c.style.display=c.style.display=='block'?'none':'block';}function calcAdd(v){document.getElementById('calcDisp').value+=v;}function calcClear(){document.getElementById('calcDisp').value='';}function calcEq(){try{document.getElementById('calcDisp').value=eval(document.getElementById('calcDisp').value)}catch(e){document.getElementById('calcDisp').value='Error'}}
+renderTeacher();
 </script></body></html>
