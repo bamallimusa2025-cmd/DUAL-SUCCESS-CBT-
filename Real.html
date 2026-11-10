@@ -12,7 +12,6 @@ button{width:100%;padding:13px;margin:6px 0;border:0;border-radius:10px;font-siz
 .palette{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.pal{width:38px;height:38px;border-radius:8px;border:1px solid #999;background:#fff;cursor:pointer}.pal.done{background:#2563eb;color:#fff}.pal.cur{outline:3px solid #f59e0b}
 #calc{background:#111;color:#fff;padding:10px;border-radius:10px;text-align:center}#calc input{background:#fff;color:#000;text-align:right}
 .top{display:flex;justify-content:space-between;align-items:center}
-.lbl{font-weight:700;font-size:14px;margin:8px 0 0 4px;display:block;text-align:left}
 </style></head><body>
 
 <div class="card" id="home">
@@ -40,10 +39,7 @@ button{width:100%;padding:13px;margin:6px 0;border:0;border-radius:10px;font-siz
 <select id="subj">
 <option>Qur'an</option><option>English Language</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>Civic Education</option><option>Agriculture Science</option><option>Geography</option><option>Arabic</option><option>Data Processing</option><option>Mathematics</option><option>Economics</option><option>Government</option><option>Literature</option><option>CRS / IRS</option><option>Computer Science</option><option>Further Mathematics</option>
 </select>
-<span class="lbl">Time</span>
-<input id="etime" type="number" value="30" placeholder="Time (minutes)">
-<span class="lbl">Marks per Question</span>
-<input id="emarks" type="number" value="1" placeholder="Mark per Question">
+<input id="etime" type="number" value="30" placeholder="Time (minutes)"><input id="emarks" type="number" value="1" placeholder="Mark per Question">
 <input id="qtext" placeholder="Question"><input id="oa" placeholder="Option A"><input id="ob" placeholder="Option B"><input id="oc" placeholder="Option C"><input id="od" placeholder="Option D">
 <select id="ans"><option value="A">Correct Answer: A</option><option value="B">Correct Answer: B</option><option value="C">Correct Answer: C</option><option value="D">Correct Answer: D</option></select>
 <button class="blue" onclick="addQuestion()">ADD QUESTION</button>
